@@ -4,15 +4,30 @@ import './App.css';
 function App() {
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const languages = [
     'English', 'Spanish', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Punjabi',
     'German', 'Javanese', 'Wu', 'Malay', 'Telugu', 'Vietnamese', 'Korean', 'French', 'Marathi', 'Tamil',
     'Urdu', 'Turkish', 'Italian', 'Yue', 'Thai'
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setOutputText(inputText);
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        messages: [{ role: "system", content: `Translate to ${selectedLanguage}: ${inputText}` }],
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    debugger;
+    setOutputText(data.choices[0].message.content);
   };
 
   return (
@@ -39,6 +54,8 @@ function App() {
             <select
               id="language"
               className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
             >
               {languages.map((language, index) => (
                 <option key={index} value={language}>{language}</option>
