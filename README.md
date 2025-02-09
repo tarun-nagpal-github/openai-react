@@ -46,18 +46,9 @@ The build artifacts will be stored in the `build` folder.
 - `src/App.js`: The main component containing the language translator form.
 - `src/App.css`: The CSS file for styling the application.
 
-### Features
+### Steps 
 
-- Input text area for entering text to be translated.
-- Dropdown to select the target language.
-- Output text area to display the translated text.
+## 1 Create a new project using CRA
+## 2 Install the Openai npm package 
+## 3 Call the OpenAI SDK to use the API provided by OpenAI
 
-### Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### License
-
-This project is licensed under the MIT License.
