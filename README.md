@@ -8,6 +8,8 @@ This project is a simple language translator application built with React and st
 
 Make sure you have Node.js and npm installed on your machine.
 
+API Refrence https://platform.openai.com/docs/api-reference/authentication
+
 ### Installation
 
 1. Clone the repository:

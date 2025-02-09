@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import './App.css';
+import { OpenAI } from "openai";
 
 function App() {
-  const [inputText, setInputText] = useState('');
-  const [outputText, setOutputText] = useState('');
+  const [inputText, setInputText] = useState('Input text here');
+  const [outputText, setOutputText] = useState('Output will be shown here');
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const languages = [
     'English', 'Spanish', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Punjabi',
     'German', 'Javanese', 'Wu', 'Malay', 'Telugu', 'Vietnamese', 'Korean', 'French', 'Marathi', 'Tamil',
     'Urdu', 'Turkish', 'Italian', 'Yue', 'Thai'
   ];
-
+  const openai = new OpenAI({
+    apiKey:  process.env.REACT_APP_OPENAI_API_KEY,
+    dangerouslyAllowBrowser: true
+  });
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
+  
+    try {
+      const response = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [{ role: "system", content: `Translate to ${selectedLanguage}: ${inputText}` }],
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-    debugger;
-    setOutputText(data.choices[0].message.content);
+      });
+  
+      setOutputText(response.choices[0].message.content);
+    } catch (error) {
+      console.error("Error fetching translation:", error);
+    }
   };
-
   return (
     <div className="App min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-lg">
