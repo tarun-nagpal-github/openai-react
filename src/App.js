@@ -6,6 +6,7 @@ function App() {
   const [inputText, setInputText] = useState('Input text here');
   const [outputText, setOutputText] = useState('Output will be shown here');
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [loading, setLoading] = useState(false);
   const languages = [
     'English', 'Spanish', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Punjabi',
     'German', 'Javanese', 'Wu', 'Malay', 'Telugu', 'Vietnamese', 'Korean', 'French', 'Marathi', 'Tamil',
@@ -15,19 +16,22 @@ function App() {
     apiKey:  process.env.REACT_APP_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true
   });
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setLoading(true);
+
     try {
       const response = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [{ role: "system", content: `Translate to ${selectedLanguage}: ${inputText}` }],
       });
-  
+
       setOutputText(response.choices[0].message.content);
     } catch (error) {
       console.error("Error fetching translation:", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -70,6 +74,11 @@ function App() {
               Submit
             </button>
           </div>
+          {loading && (
+            <div className="flex justify-center items-center">
+              <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+            </div>
+          )}
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="outputText">
               Output
