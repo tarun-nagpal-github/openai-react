@@ -4,6 +4,9 @@ This project is a simple language translator application built with React and st
 
 ## Getting Started
 
+### Online Demo 
+https://open-ai-react-demo-app.netlify.app/
+
 ### Prerequisites
 
 Make sure you have Node.js and npm installed on your machine.
