@@ -12,8 +12,15 @@ function App() {
     'German', 'Javanese', 'Wu', 'Malay', 'Telugu', 'Vietnamese', 'Korean', 'French', 'Marathi', 'Tamil',
     'Urdu', 'Turkish', 'Italian', 'Yue', 'Thai'
   ];
+
+  // process.env.MY_IMPORTANT_VARIABLE
+  console.log("PROCESS_ENV")
+  console.log(process.env);
+  console.log(process.env.REACT_APP_OPENAI_API_KEY);
+  console.log("API URL:", process.env.REACT_APP_API_URL);
+  debugger;
   const openai = new OpenAI({
-    apiKey:  process.env.REACT_APP_OPENAI_API_KEY,
+    apiKey:  "API_KEY",
     dangerouslyAllowBrowser: true
   });
 
